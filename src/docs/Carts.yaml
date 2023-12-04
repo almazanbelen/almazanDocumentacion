@@ -1,0 +1,252 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: "Datos obtenidos satisfactoriamente"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno del servidor"
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un cart por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del cart
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: "Carrito encontrado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno en el servidor"
+    put:
+      summary: Edita un carrito a partir de su Id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del cart que desea editar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: "Producto editado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno en el servidor"
+    delete:
+      summary: Elimina un carrito por su ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a eliminar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: "Carrito eliminado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno en el servidor"
+  /api/carts/user/{uid}:
+    post:
+      summary: Crea un carrito
+      tags:
+        - Carts
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: "Carrito creado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno en el servidor"
+  /api/carts/{cid}/products/{pid}/user/{uid}/:
+    put:
+      summary: Agrega un producto a un carrito, segun usuario
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a agregar
+          schema:
+            $type: String
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: "Producto agregado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno en el servidor"
+  /api/carts/{cid}/products/{pid}/:
+    delete:
+      summary: Elimina un producto del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del cart
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: "Producto eliminado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: "Error interno en el servidor"
+components:
+  schemas:
+    carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado
+        user:
+          type: Array
+          description: Nombre del usuario
+        products:
+          type: Array
+          description: Lista de productos
+        totalPrice:
+          type: String
+          description: Precio total del carrito
+      example:
+        _id: ObjectId("655fc7f43160a69175a18c46")
+        user: [{
+          user: "655d22f4f88dc967b191d1c2",
+           _id: ObjectId("655fe034b11975ff9270a33d")
+          }]
+        products: [{
+          product: "655fc7f43160a69175a18c46",
+          quantity: 1,
+          _id: "655fe114970725035de44532"
+          },
+          {
+          product: "655fc7f43160a69175a18c46",
+          quantity: 1,
+          _id: "655fe2689f5a0b7cf6a0eb76"
+          }]
+        totalPrice: 3400
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+        user:
+          type: Array
+          description: Nombre del usuario
+        products:
+          type: Array
+          description: Lista de productos
+        totalPrice:
+          type: String
+          description: Precio total del carrito
+      example:
+        user: [{
+          user: "655d22f4f88dc967b191d1c2",
+           _id: ObjectId("655fe034b11975ff9270a33d")
+          }]
+        products: [{
+          product: "655fc7f43160a69175a18c46",
+          quantity: 1,
+          _id: "655fe114970725035de44532"
+          },
+          {
+          product: "655fc7f43160a69175a18c46",
+          quantity: 1,
+          _id: "655fe2689f5a0b7cf6a0eb76"
+          }]
+        totalPrice: 3400

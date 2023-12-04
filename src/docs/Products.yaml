@@ -25,6 +25,17 @@ paths:
           application/json:
             schema:
               $ref: "#components/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: "Producto creado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/products"
+        "500":
+          description: "Error interno en el servidor"
   /api/products/{pid}/:
     get:
       summary: Obtiene los productos por ID
