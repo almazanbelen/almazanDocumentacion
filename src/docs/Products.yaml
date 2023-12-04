@@ -1,0 +1,184 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: "Datos obtenidos satisfactoriamente"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/products"
+        "500":
+          description: "Error interno del servidor"
+    post:
+      summary: Crea un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+  /api/products/{pid}/:
+    get:
+      summary: Obtiene los productos por ID
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: "Producto encontrado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/products"
+        "500":
+          description: "Error interno en el servidor"
+    put:
+      summary: Edita un producto a partir de su Id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que desea editar
+          schema:
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: "Producto editado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/products"
+        "500":
+          description: "Error interno en el servidor"
+  /api/products/{pid}/{uid}:
+    delete:
+      summary: Elimina un producto por su ID y segun usuario
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            $type: String
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: "Producto eliminado"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/products"
+        "500":
+          description: "Error interno en el servidor"
+components:
+  schemas:
+    products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: String
+          description: Codigo unico del producto
+        price:
+          type: Number
+          description: Precio del producto
+        stock:
+          type: Number
+          description: Stock de producto
+        category:
+          type: String
+          description: Categoria del producto
+        owner:
+          type: Array
+          description: Persona quien creo el producto, procede de schema User
+      example:
+        _id: ObjectId("655fc7f43160a69175a18c46")
+        title: "remera"
+        description: "roja"
+        code: a725aad5-2418-477e-8296-5a54d6f77a19
+        price: 8500
+        stock: 1
+        category: remeras
+        owner: [{
+          user: "655d22c7f88dc967b191d1bd",
+          _id: "655fc7f43160a69175a18c47"
+          }]
+  requestBodies:
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: String
+          description: Codigo unico del producto
+        price:
+          type: Number
+          description: Precio del producto
+        stock:
+          type: Number
+          description: Stock de producto
+        category:
+          type: String
+          description: Categoria del producto
+        owner:
+          type: Array
+          description: Persona quien creo el producto, procede de schema User
+      example:
+        title: "remera"
+        description: "roja"
+        code: a725aad5-2418-477e-8296-5a54d6f77a19
+        price: 8500
+        stock: 1
+        category: remeras
+        owner: [{
+          user: "655d22c7f88dc967b191d1bd",
+          _id: "655fc7f43160a69175a18c47"
+          }]
