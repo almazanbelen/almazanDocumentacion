@@ -86,8 +86,7 @@ async function getProfile(req, res) {
   if (!req.session.user) {
     return res.redirect("login");
   }
-  const { first_name, last_name, email, age, carts, role } = req.session.user;
-  const cartsParse = JSON.stringify(carts);
+  const { first_name, last_name, email, age, role } = req.session.user;
   res.render("profile", {
     first_name,
     last_name,

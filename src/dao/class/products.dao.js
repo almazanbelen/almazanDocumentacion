@@ -15,7 +15,7 @@ module.exports = class Products {
   //obtener productos by ID
   productById = async (pid) => {
     try {
-      const result = await productModel.find({ _id: pid });
+      const result = await productModel.findOne({ _id: pid });
       return result;
     } catch (error) {
       console.log(error);
