@@ -24,5 +24,25 @@ describe("Testing", () => {
       //---------ERROR, llega a la BD (se crea el usuario) pero el body viene undefined
       //expect(_body.payload).to.have.property("_id")
     });
+    it("El endpoint GET /api/sessions/login debe renderizar login", async () => {
+      const { statusCode } = await requester.get("/api/sessions/login");
+      expect(statusCode).to.equal(200);
+    });
+    it("El endpoint GET /api/sessions/register debe renderizar register", async () => {
+      const { statusCode } = await requester.get("/api/sessions/register");
+      expect(statusCode).to.equal(200);
+    });
+  });
+  describe("Test de productos", () => {
+    it("El endpoint GET /api/products debe obtener todos los productos", async () => {
+      const { statusCode } = await requester.get("/api/products");
+      expect(statusCode).to.equal(200);
+    });
+    it("El endpoint GET /api/products/:pid debe obtener un producto", async () => {
+      const { statusCode } = await requester.get(
+        "/api/products/655fc8203160a69175a18c4a"
+      );
+      expect(statusCode).to.equal(200);
+    });
   });
 });
