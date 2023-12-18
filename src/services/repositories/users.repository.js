@@ -28,9 +28,24 @@ module.exports = class UserRepository {
     let result = await this.dao.findUser(email);
     return result;
   };
+  //encontrar usuario by ID
+  findUserById = async (uid) => {
+    let result = await this.dao.findUserById(uid)
+    return result
+  }
   //restore
   postRestore = async (email, password) => {
     let result = await this.dao.postRestore(email, password);
     return result;
   };
+
+  //subir documentos
+  postFiles = async (uid, name ,file) => {
+    let result = await this.dao.postFiles(uid, name, file)
+  }
+
+  //cambiar rol de usuario
+  putRole = async(uid) => {
+    let result = await this.dao.putRole(uid)
+  }
 };

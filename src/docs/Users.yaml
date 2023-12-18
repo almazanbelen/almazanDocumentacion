@@ -1,0 +1,106 @@
+paths:
+  /api/sessions/login:
+    get:
+      summary:
+      tags:
+        - Users
+    post:
+      summary:
+      tags:
+        - Users
+  /api/sessions/private:
+    get:
+      summary:
+      tags:
+        - Users
+  /api/sessions/register:
+    get:
+      summary:
+      tags:
+        - Users
+    post:
+      summary:
+      tags:
+        - Users
+  /api/sessions/profile:
+    get:
+      summary:
+      tags:
+        - Users
+  /api/sessions/restore/:token:
+    get:
+      summary:
+      tags:
+        - Users
+    post:
+      summary:
+      tags:
+        - Users
+  /api/sessions/premium/:uid:
+    put:
+      summary:
+      tags:
+        - Users
+components:
+  schemas:
+    users:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: Id autogenerado
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: String
+          description: Email del usuario
+        age:
+          type: Number
+          description: Edad del usuario
+        password:
+          type: String
+          description: Contraseña
+        role:
+          type: String
+          description: Rol del usuario
+      example:
+        _id: ObjectId("655fc7f43160a69175a18c46")
+        first_name: "juan"
+        last_name: "perez"
+        email: "juanperez@mail.com"
+        age: 38
+        password: "1234"
+        role: "user"
+  requestBodies:
+    updateUser:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: Nombre del usuario
+        last_name:
+          type: String
+          description: Apellido del usuario
+        email:
+          type: String
+          description: Email del usuario
+        age:
+          type: Number
+          description: Edad del usuario
+        password:
+          type: String
+          description: Contraseña
+        role:
+          type: String
+          description: Rol del usuario
+      example:
+        first_name: "juan"
+        last_name: "perez"
+        email: "juanperez@mail.com"
+        age: 38
+        password: "1234"
+        role: "user"

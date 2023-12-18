@@ -1,4 +1,6 @@
 //imports
+const { RoleInstance } = require("twilio/lib/rest/ipMessaging/v1/service/role");
+const config = require("../../config/config");
 const { createHash } = require("../../utils/utils");
 const User = require("../models/User");
 
@@ -16,7 +18,9 @@ module.exports = class Users {
           email: 1,
           role: 1,
         }
-      );
+        );
+        const last_connection = await User.updateOne({ email: user.email },{last_connection: Date()})
+      
       return user;
     } catch (error) {
       console.log(error);
@@ -51,6 +55,17 @@ module.exports = class Users {
     }
   };
 
+  //obtener usuario by ID
+  findUserById = async(uid) => {
+    try {
+      const user = await User.findById({ _id: uid });
+      return user
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
   //restore
   postRestore = async (email, password) => {
     try {
@@ -64,6 +79,38 @@ module.exports = class Users {
     } catch (error) {
       console.log(error);
       return null;
+    }
+  };
+
+  //subir documentos
+  postFiles = async (uid, name, file) => {
+    try {
+      const userFound = await User.findById({ _id: uid });
+      userFound.documents.push({ name, reference: file.filename });
+      const result = await User.updateOne({ _id: uid }, userFound);
+      return result;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  //cambiar rol de usuario
+  putRole = async (uid) => {
+    try {
+      //cambiar de role de premium a user y visceversa
+      const user = await User.findById(uid);
+      if ( user.role == "user") {     
+        const role = await User.updateOne({role: "premium",});
+        return role;        
+      } else {      
+        const role = await User.updateOne({
+          role: "user",
+        });
+        return role;
+      }
+    } catch (error) {
+      console.log(error)
+      null;
     }
   };
 };

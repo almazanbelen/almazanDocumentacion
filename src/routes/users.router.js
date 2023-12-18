@@ -4,6 +4,8 @@ const router = express.Router();
 const passport = require("passport");
 const { auth } = require("../utils/authRole");
 const usersController = require("../controllers/usersControllers");
+const upload = require("../utils/multer.js");
+const User = require("../dao/models/User.js");
 
 //login
 router.get("/login", usersController.getLogin);
@@ -53,7 +55,7 @@ router.get("/restore/:token", usersController.getRestore);
 router.post("/restore/:token", usersController.postRestore);
 
 //cambio de rol de usuario
-router.put("/premium/:uid", usersController.putRole)
+router.put("/premium/:uid", usersController.putRole);
 
 //current para jwt
 router.get(
@@ -61,5 +63,7 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   usersController.current
 );
+
+router.post("/:uid/documents", upload.single("file"), usersController.postFiles);
 
 module.exports = router;

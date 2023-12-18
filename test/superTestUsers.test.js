@@ -22,7 +22,7 @@ describe("Testing", () => {
         .send(mockUser);
       console.log(statusCode, ok, _body);
       //---------ERROR, llega a la BD (se crea el usuario) pero el body viene undefined
-      //expect(_body.payload).to.have.property("_id")
+      expect(_body.payload).to.have.property("_id")
     });
     it("El endpoint GET /api/sessions/login debe renderizar login", async () => {
       const { statusCode } = await requester.get("/api/sessions/login");

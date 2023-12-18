@@ -4,7 +4,6 @@ const userService = require("../dao/factory/factoryUsers.js");
 const config = require("../config/config");
 const userRole = require("../utils/usersRole.js");
 const jwt = require("jsonwebtoken");
-const User = require("../dao/models/User.js");
 
 //login
 async function getLogin(req, res) {
@@ -70,8 +69,10 @@ async function postRegister(req, res) {
       password,
       role
     );
-    res.redirect("/api/sessions/login");
-    console.log("Usuario registrado con éxito.");
+
+    res
+      .send({ payload: "usuario registrado con éxito" })
+      .redirect("/api/sessions/login");
   }
 }
 
@@ -92,7 +93,6 @@ async function getProfile(req, res) {
     last_name,
     age,
     email,
-    cartsParse,
     role,
   });
 }
@@ -142,25 +142,27 @@ async function postRestore(req, res) {
     }
   });
 }
+//subir archivos
+async function postFiles(req, res) {
+  const { uid } = req.params;
+  const { name } = req.body;
+  const file = req.file;
+  const result = await userService.postFiles(uid, name, file);
+  res.status(200).send({ result: "Success" });
+}
+
 //cambio de rol del usuario
 async function putRole(req, res) {
   const { uid } = req.params;
-  
-  //cambiar de role de premium a user y visceversa
-  const user = await User.findById(uid);
-  if (user.email == config.adminEMAIL && user.role == "premium") {
-    const role = await User.updateOne({
-      role: "user",
-    });
-    res.send({ result: "Success", payload: role });
-  }
-  if (user.email == config.adminEMAIL && user.role == "user") {
-    const role = await User.updateOne({
-      role: "premium",
-    });
-    res.send({ result: "Success", payload: role });
+  const user = await userService.findUserById(uid);
+  if (
+    (user.role === "user" && user.documents.length >= 2) ||
+    user.role === "premium"
+  ) {
+    const result = await userService.putRole(uid);
+    res.status(200).send({ result: "Success" });
   } else {
-    res.send({ error: "Usuario no autorizado para realizar cambio de rol" });
+    res.send({ error: "Faltan documentos" });
   }
 }
 
@@ -182,6 +184,7 @@ module.exports = {
   logout,
   getRestore,
   postRestore,
+  postFiles,
   putRole,
   current,
 };

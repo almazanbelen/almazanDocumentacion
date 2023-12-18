@@ -14,9 +14,7 @@ describe("Testing Products Dao methods", () => {
   before(function () {
     this.productsDao = new Products();
   });
-  beforeEach(function () {
-    this.timeout(5000);
-  });
+
   it("El Dao debe agregar un producto correctamente a la base de datos", async function () {
     this.timeout(5000);
     const title = "pantalon";
@@ -70,8 +68,8 @@ describe("Testing Products Dao methods", () => {
     assert.ok(result);
   });
 
-  beforeEach(function () {
-    mongoose.connect.collections.products.drop();
-    this.timeout(5000);
-  });
+  // beforeEach(function () {
+  //   mongoose.connect.collections.products.drop();
+  //   this.timeout(5000);
+  // });
 });
