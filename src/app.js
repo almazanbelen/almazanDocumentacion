@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 mongoose
-  .connect(config.mongoURL, {
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
