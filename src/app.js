@@ -20,7 +20,7 @@ const cartRouter = require("./routes/cart.router");
 const usersRouter = require("./routes/users.router");
 const ticketsRouter = require("./routes/tickets.router");
 const mailRouter = require("./routes/mail.router");
-const smsRouter = require("./routes/sms.router");
+
 
 const app = express();
 
@@ -85,7 +85,6 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/tickets", ticketsRouter);
 app.use("/api/mail", mailRouter);
-app.use("/api/sms", smsRouter);
 
 app.get("/", (req, res) => {
   res.render("sms");

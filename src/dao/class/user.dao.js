@@ -1,6 +1,5 @@
 //imports
-const { RoleInstance } = require("twilio/lib/rest/ipMessaging/v1/service/role");
-const config = require("../../config/config");
+
 const { createHash } = require("../../utils/utils");
 const User = require("../models/User");
 
