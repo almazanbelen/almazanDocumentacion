@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 mongoose
-  .connect(config.mongoURL, {
+  .connect("mongodb+srv://almazanbelen:belsds22@cluster0.dfo2ui5.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
