@@ -12,7 +12,7 @@ dotenv.config({
 
 //exports
 module.exports = {
-  port:process.env.PORT,
+  port:process.env.PORT||8080,
   mongoURL:process.env.MONGO_URL,
   mongoURLtest:process.env.MONGO_URL_TEST,
   adminNAME:process.env.ADMIN_NAME,

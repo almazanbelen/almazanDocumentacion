@@ -91,6 +91,6 @@ app.get("/", (req, res) => {
   res.render("sms");
 });
 
-app.listen(8080, () => {
-  console.log(`Servidor en ejecución en el puerto ${8080} `);
+app.listen(config.port, () => {
+  console.log(`Servidor en ejecución en el puerto ${config.port} `);
 });
