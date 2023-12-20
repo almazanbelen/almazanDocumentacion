@@ -3,7 +3,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const Handlebars = require("handlebars")
 const handlebars = require("express-handlebars");
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
@@ -75,7 +78,9 @@ app.use(passport.session());
 app.use(cookieParser());
 
 //vistas
-app.engine("handlebars", handlebars.engine());
+app.engine("handlebars", handlebars.engine({
+  handlebars: allowInsecurePrototypeAccess(Handlebars)
+}));
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 

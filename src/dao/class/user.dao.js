@@ -4,6 +4,17 @@ const { createHash } = require("../../utils/utils");
 const User = require("../models/User");
 
 module.exports = class Users {
+  //obtener todos los usuarios
+  getUsers = async()=> {
+    try {
+      const users = await User.find()
+      return users
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
   //login
   postLogin = async (email) => {
     try {

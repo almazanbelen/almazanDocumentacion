@@ -1,0 +1,15 @@
+<div>
+    {{#each users}}
+    <div>
+        <h3>Datos del usuario</h3>
+        <h4>Nombre : {{first_name}} {{last_name}}</h4>
+        <h4>Email : {{email}}</h4>
+        <h4>Role : {{role}}</h4>
+        <form action="/api/sessions/premium/{{_id}}" method="post">
+            
+            <button type="submit">Cambiar rol</button>
+        </form>
+        
+    </div>    
+    {{/each}}    
+</div>

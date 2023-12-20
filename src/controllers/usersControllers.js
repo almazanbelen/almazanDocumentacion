@@ -5,6 +5,12 @@ const config = require("../config/config");
 const userRole = require("../utils/usersRole.js");
 const jwt = require("jsonwebtoken");
 
+//obtener todos los usuarios
+async function getUsers(req, res) {
+  const users = await userService.getUsers()
+  res.render("users", {users})
+}
+
 //login
 async function getLogin(req, res) {
   res.render("login");
@@ -172,6 +178,7 @@ function current(req, res) {
 }
 
 module.exports = {
+  getUsers,
   getLogin,
   postLogin,
   getPrivate,
