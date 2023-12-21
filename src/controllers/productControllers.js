@@ -25,7 +25,8 @@ async function getProducts(req, res) {
   };
 
   let product = await productService.getProduct(filter, options);
-  res.send({ result: "success", payload: product });
+ const products = product.docs
+  res.send({ result: "success", payload: products })//.render("allProducts" , {products})
 }
 
 //ver productos by ID

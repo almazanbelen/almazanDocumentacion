@@ -48,10 +48,18 @@ module.exports = class UserRepository {
   //subir documentos
   postFiles = async (uid, name, file) => {
     let result = await this.dao.postFiles(uid, name, file);
+    return result;
   };
 
   //cambiar rol de usuario
   putRole = async (uid) => {
     let result = await this.dao.putRole(uid);
+    return result;
+  };
+
+  //eliminar usuarios
+  deleteUsers = async (email) => {
+    let result = await this.dao.deleteUsers(email);
+    return result;
   };
 };

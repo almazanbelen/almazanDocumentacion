@@ -5,15 +5,15 @@ const User = require("../models/User");
 
 module.exports = class Users {
   //obtener todos los usuarios
-  getUsers = async()=> {
+  getUsers = async () => {
     try {
-      const users = await User.find()
-      return users
+      const users = await User.find();
+      return users;
     } catch (error) {
-      console.log(error)
-      return null
+      console.log(error);
+      return null;
     }
-  }
+  };
 
   //login
   postLogin = async (email) => {
@@ -28,9 +28,12 @@ module.exports = class Users {
           email: 1,
           role: 1,
         }
-        );
-        const last_connection = await User.updateOne({ email: user.email },{last_connection: Date()})
-      
+      );
+      const last_connection = await User.updateOne(
+        { email: user.email },
+        { last_connection: Date() }
+      );
+
       return user;
     } catch (error) {
       console.log(error);
@@ -66,15 +69,15 @@ module.exports = class Users {
   };
 
   //obtener usuario by ID
-  findUserById = async(uid) => {
+  findUserById = async (uid) => {
     try {
       const user = await User.findById({ _id: uid });
-      return user
+      return user;
     } catch (error) {
-      console.log(error)
-      return null
+      console.log(error);
+      return null;
     }
-  }
+  };
 
   //restore
   postRestore = async (email, password) => {
@@ -109,18 +112,29 @@ module.exports = class Users {
     try {
       //cambiar de role de premium a user y visceversa
       const user = await User.findById(uid);
-      if ( user.role == "user") {     
-        const role = await User.updateOne({role: "premium",});
-        return role;        
-      } else {      
+      if (user.role == "user") {
+        const role = await User.updateOne({ role: "premium" });
+        return role;
+      } else {
         const role = await User.updateOne({
           role: "user",
         });
         return role;
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       null;
+    }
+  };
+
+  //eliminar usuarios
+  deleteUsers = async (email) => {
+    try {
+      const result = await User.deleteMany({ email: email });
+      return result;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
   };
 };

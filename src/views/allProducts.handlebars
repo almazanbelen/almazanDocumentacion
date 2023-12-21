@@ -1,8 +1,11 @@
-<div>
-    {{#each product}}
-    <pre>{{this}}</pre>
-    <h4>
-        {{price}}
-    </h4>
+<form action="" method="">
+    {{#each products}}
+    <h3>Productos</h3>
+    <h4>Titulo: {{title}}</h4>
+    <h4>Description: {{description}}</h4>
+    <h4>Price: ${{price}}</h4>
+     <label for="quantity">Cantidad</label>
+    <input type="Number" name="quantity" required>
+    <button type="submit">Agregar al carrito</button>
     {{/each}}
-</div>
+</form>

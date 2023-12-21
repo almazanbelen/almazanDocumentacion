@@ -3,9 +3,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-const Handlebars = require("handlebars")
+const Handlebars = require("handlebars");
 const handlebars = require("express-handlebars");
-const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+const {
+  allowInsecurePrototypeAccess,
+} = require("@handlebars/allow-prototype-access");
 
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
@@ -15,15 +17,12 @@ const config = require("./config/config.js");
 const swaggerJsdoc = require("swagger-jsdoc");
 const SwaggerUiExpress = require("swagger-ui-express");
 
-
-
 //routes
 const productsRouter = require("./routes/product.router");
 const cartRouter = require("./routes/cart.router");
 const usersRouter = require("./routes/users.router");
 const ticketsRouter = require("./routes/tickets.router");
 const mailRouter = require("./routes/mail.router");
-
 
 const app = express();
 
@@ -51,7 +50,11 @@ const swaggerOptions = {
       description: "Api ecommerce Swagger",
     },
   },
-  apis: ["src/docs/Products.yaml", "src/docs/Carts.yaml", "src/docs/Users.yaml"],
+  apis: [
+    "src/docs/Products.yaml",
+    "src/docs/Carts.yaml",
+    "src/docs/Users.yaml",
+  ],
 };
 
 const specs = swaggerJsdoc(swaggerOptions);
@@ -78,9 +81,12 @@ app.use(passport.session());
 app.use(cookieParser());
 
 //vistas
-app.engine("handlebars", handlebars.engine({
-  handlebars: allowInsecurePrototypeAccess(Handlebars)
-}));
+app.engine(
+  "handlebars",
+  handlebars.engine({
+    handlebars: allowInsecurePrototypeAccess(Handlebars),
+  })
+);
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
@@ -91,8 +97,8 @@ app.use("/api/carts", cartRouter);
 app.use("/api/tickets", ticketsRouter);
 app.use("/api/mail", mailRouter);
 
-app.get("/", (req, res) => {
-  res.render("sms");
+app.get("/", async (req, res) => {
+  res.render("home");
 });
 
 app.listen(config.port, () => {

@@ -5,8 +5,9 @@ module.exports = class Products {
   //obtener productos
   getProducts = async (filter, options) => {
     try {
-      let Product = await productModel.paginate(filter, options);
-      return Product;
+      let product = await productModel.find()
+      let result = await productModel.paginate(filter, options);
+      return result;
     } catch (error) {
       console.log(error);
       return null;

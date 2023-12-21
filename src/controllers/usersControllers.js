@@ -4,11 +4,12 @@ const userService = require("../dao/factory/factoryUsers.js");
 const config = require("../config/config");
 const userRole = require("../utils/usersRole.js");
 const jwt = require("jsonwebtoken");
+const transporter = require("../utils/nodemailer.js");
 
 //obtener todos los usuarios
 async function getUsers(req, res) {
-  const users = await userService.getUsers()
-  res.render("users", {users})
+  const users = await userService.getUsers();
+  res.render("users", { users });
 }
 
 //login
@@ -172,6 +173,42 @@ async function putRole(req, res) {
   }
 }
 
+//eliminar usuarios inactivos
+async function deleteInactive(req, res) {
+  const limitTime = new Date();
+  limitTime.setHours(limitTime.getHours() - 48);
+  const users = await userService.getUsers();
+  const usersInactive = users.filter(
+    (user) => user.last_connection < limitTime
+  );
+  if (usersInactive.length > 0) {
+    let inactiveEmails = usersInactive.map((user) => user.email);
+    const mailOptions = {
+      from: config.adminEMAIL,
+      to: inactiveEmails,
+      subject: "Cuenta inactiva",
+      html: `
+      <div>
+          <h2>Tu cuenta ha sido eliminada por inactividad</h2>            
+      </div>
+      `,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        res.send("Error de envio");
+      } else {
+        console.log("Correo enviado", info.response);
+        res.send(`Correo enviado con éxito a ${inactiveEmails}`);
+      }
+    });
+    const usersDeleted = await userService.deleteUsers(inactiveEmails);
+    res.send({ result: usersDeleted });
+  } else {
+    res.send("no hay usuarios inactivos");
+  }
+}
+
 //current para jwt
 function current(req, res) {
   res.send(req.user);
@@ -193,5 +230,6 @@ module.exports = {
   postRestore,
   postFiles,
   putRole,
+  deleteInactive,
   current,
 };

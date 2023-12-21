@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
       },
     ],
   },
-  last_connection: { type: String }
+  last_connection: { type: Date }
 });
 
 const User = mongoose.model("users", userSchema);
