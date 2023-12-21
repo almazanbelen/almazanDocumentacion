@@ -3,6 +3,8 @@ const { productService } = require("../services/repositories/index");
 const User = require("../dao/models/User");
 const { productModel } = require("../dao/models/product.model");
 const { v4: uuidv4 } = require("uuid");
+const config = require("../config/config");
+const transporter = require("../utils/nodemailer")
 
 //ver productos
 async function getProducts(req, res) {
@@ -88,17 +90,36 @@ async function deleteProduct(req, res) {
   //busca el usuario que creo el producto
   let product = await productModel.findOne({ _id: pid });
   let role;
+  let email
   product.owner.map((o) => {
     role = o.user.role;
+    email = o.user.email;
   });
   //busca el usuario que quiere eliminar producto
   let user = await User.findOne({ _id: uid });
   //validacion de roles
-  if (role == "premium" && user.role === "premium") {
-    let result = await productService.deleteProducts(pid);
-    res.send({ result: "success", payload: result });
+  if(role == "premium"){
+    const mailOptions = {
+      from: config.adminEMAIL,
+      to: email,
+      subject: "Productos",
+      html: `
+      <div>
+          <h2>Tu producto ha sido eliminado</h2>            
+      </div>
+      `,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        res.send("Error de envio");
+      } else {
+        console.log("Correo enviado", info.response);
+        res.send(`Correo enviado con éxito a ${inactiveEmails}`);
+      }
+    });
   }
-  if (user.role === "admin") {
+  if (role == "premium" && user.role ===  "premium" || user.role === "admin") {
     let result = await productService.deleteProducts(pid);
     res.send({ result: "success", payload: result });
   } else {
