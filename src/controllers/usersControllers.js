@@ -18,7 +18,6 @@ async function getLogin(req, res) {
 }
 async function postLogin(req, res) {
   const { email, password } = req.body;
-
   if (!email || !password) {
     return res.status(400).render("login", { error: "Valores erroneos" });
   }
@@ -76,10 +75,7 @@ async function postRegister(req, res) {
       password,
       role
     );
-
-    res
-      .send({ payload: "usuario registrado con éxito" })
-      .redirect("/api/sessions/login");
+    res.redirect("/api/sessions/login");
   }
 }
 

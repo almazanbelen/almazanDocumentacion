@@ -7,7 +7,7 @@ const usersController = require("../controllers/usersControllers");
 const upload = require("../utils/multer.js");
 
 //obtener todos los usuarios
-router.get("/users", usersController.getUsers);
+router.get("/users", authAdmin, usersController.getUsers);
 
 //login
 router.get("/login", usersController.getLogin);
@@ -15,7 +15,7 @@ router.get("/login", usersController.getLogin);
 router.post("/login", usersController.postLogin);
 
 //private
-router.get("/private", usersController.getPrivate);
+router.get("/private", auth, usersController.getPrivate);
 
 //register
 router.get("/register", usersController.getRegister);
